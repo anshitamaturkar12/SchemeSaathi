@@ -172,4 +172,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ---
 
 ## 👥 Authors
+1. Anshita Maturkar
+2. Vedant Borkar
+3. Gourav Bhendarkar
 Built for the AI Hackathon with ❤️ for Indian citizens.
+
