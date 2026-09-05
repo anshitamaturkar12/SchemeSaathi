@@ -1,4 +1,5 @@
-# SchemeSathi AI 
+# SchemeSathi AI
+
 > **"Your Personal Government Scheme Eligibility Assistant"**  
 > *Discover the government welfare schemes you may be eligible for — in minutes, not hours.*
 
@@ -8,40 +9,108 @@
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini%20AI-1.5%20Flash-4285F4?style=flat&logo=google)](https://aistudio.google.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+**Live Demo:** [YOUR VERCEL URL]  
+**GitHub Repository:** [YOUR GITHUB REPOSITORY URL]
+
 ---
 
 ## 🎯 The Real-World Problem
 
-India runs hundreds of Central and State welfare programs, providing direct cash assistance, crop insurance, college tuition waivers, healthcare coverage, and collateral-free business capital.
+India administers hundreds of Central and State welfare initiatives, offering direct benefit cash transfers (DBT), crop insurance subsidies, college tuition waivers, healthcare coverage, and collateral-free business capital.
 
-However, millions of eligible citizens miss out because:
-1. **Scattered Portals**: Schemes are fragmented across dozens of separate Ministry websites.
-2. **Complex Legal Language**: Strict income ceilings, SECC matrices, and landholding rules are hard to parse.
-3. **Unclear Document Requirements**: Citizens waste days in physical government offices before finding out they were missing an income or caste certificate.
-4. **Middlemen & Scams**: Citizens often fall victim to touts claiming fees for schemes that are 100% free.
+Yet, millions of rightful citizens remain excluded from these benefits due to structural barriers:
+1. **Scattered Portals**: Schemes are dispersed across dozens of disparate Ministry websites, state departments, and autonomous boards.
+2. **Complex Legal Language**: Gazette notifications, SECC deprivation criteria, and landholding clauses are filled with bureaucratic jargon.
+3. **Unclear Document Requirements**: Citizens lose productive work days traveling to government offices only to discover they lack a specific certificate format.
+4. **Middlemen & Exploitation**: Citizens frequently fall prey to unauthorized agents charging exorbitant fees for services and forms that are legally 100% free.
+5. **No Central Application Memory**: Citizens have no unified, private way to remember which schemes they explored, saved, or marked as applied.
 
 ---
 
 ## 💡 The Solution: SchemeSathi AI
 
-**SchemeSathi AI** bridges the gap between citizens and government welfare through:
-- **Transparent Deterministic Eligibility Engine**: Mathematical rules-based scoring that explains *exactly why* you qualify (Matched vs. Unmet vs. To Verify).
-- **Google Gemini AI Assistant**: Strictly grounded on verified scheme criteria to explain terms in simple everyday words, translate into Indian languages, and provide personalized guidance.
-- **Natural Language Intent Parsing**: Type *"I am a 21-yr student from Maharashtra with ₹2L income"* → AI extracts your attributes → Feeds directly into the deterministic rules engine.
-- **Official Source Protection**: Direct links to genuine `gov.in` and `nic.in` portals with official verification badges. Zero fake links.
-- **Document Readiness Meter**: Interactive checklists allowing citizens to mark documents they possess and track readiness from 0% to 100%.
+**SchemeSathi AI** is a citizen-first welfare discovery and application tracking platform designed to remove friction between citizens and public welfare.
+
+- **Transparent Deterministic Eligibility Engine**: Mathematical, rules-driven scoring that explains *precisely why* you qualify (Matched vs. Unmet vs. To Verify).
+- **Google Gemini AI Assistant**: Grounded exclusively in verified scheme criteria to explain complex terms in plain language and translate insights into Indian languages.
+- **Natural Language Intent Parsing**: Type *"I am a 21-yr student from Maharashtra with ₹2L income"* → AI extracts key attributes → Directly feeds the deterministic rules engine.
+- **Official Source Protection**: Direct links pointing strictly to verified `.gov.in`, `.nic.in`, and official nodal portals. Zero touts, zero fake links.
+- **Document Readiness Meter**: Interactive checklists enabling citizens to mark documents they possess and track readiness from 0% to 100%.
 - **Multilingual Support**: Real-time language switching across **English**, **Hindi (हिंदी)**, and **Marathi (मराठी)**.
+- **Secure Authentication & Personal Profile**: Allows citizens to register, sign in, manage personal eligibility details, and securely access their own profile.
+- **Scheme Activity & Milestone Tracking**: Automatically logs viewed schemes, shortlisted bookmarks, and marked-as-applied applications within a unified citizen dashboard.
+
+---
+
+## ✨ Key Features
+
+- 🔍 **Multi-Parametric Scheme Discovery**: Filter programs across categories (Agriculture, Healthcare, Education, Housing, Business, Women & Family, Social Welfare) and government levels (Central vs. State).
+- 🤖 **Conversational AI Assistance**: Ask situational questions like *"Can I apply if my father owns 3 acres of land?"* and receive contextual, grounded guidance.
+- ⚖️ **Side-by-Side Scheme Comparison**: Compare benefits, application steps, and document checklists across up to 3 programs simultaneously.
+- 📋 **Document Preparation Checklists**: Detailed breakdown of necessary identity, income, domicile, and caste certificates before applying.
+- 👤 **Secure Account Management**: Private user authentication with session persistence, password hashing, and user data isolation.
+- 📊 **Citizen Journey Dashboard**: Unified view of profile attributes, viewed history, saved bookmarks, and marked-as-applied schemes.
+- ⚡ **Offline & Graceful Fallback**: The entire deterministic eligibility calculation, scheme directory, comparison engine, and local discovery tools run seamlessly even without external AI keys.
+
+---
+
+## 👤 User Authentication
+
+SchemeSathi AI provides a dedicated, production-ready authentication layer:
+
+- **Account Registration (`/register`)**: Citizens register with Full Name, Email, Username, and Password. Includes client- and server-side validation, password length checks, and confirmation matching.
+- **Secure Sign In (`/login`)**: Citizens authenticate using their registered Email or Username alongside their password.
+- **Password Security**: Passwords are never stored as plain text. Credential verification utilizes salted cryptographic password hashing (`bcrypt`), ensuring industry-standard protection.
+- **Session Management**: Authenticated sessions are securely maintained via signed HTTP cookies, preventing unauthorized access. Passwords are never persisted in browser `localStorage`.
+- **Protected User Routes**: Protected endpoints and pages (such as `/profile`) automatically redirect unauthenticated guests to `/login?redirect=/profile`.
+- **User Data Isolation**: Every user record is cryptographically tied to that citizen's unique identifier. User A can never inspect, modify, or query data belonging to User B.
+
+---
+
+## 🧑‍💼 Personalized User Profile
+
+Every registered citizen receives a personal profile to manage their welfare eligibility data in one place:
+
+- **Identity & Contact**: Full Name, Username, verified Email, and optional Phone Number.
+- **Demographics**: Date of Birth and Gender.
+- **Geographic Domicile**: State and District/City (crucial for unlocking state-specific welfare packages).
+- **Socio-Economic Information**: Occupation, Annual Household Income, and Social Category / Caste Group (General, OBC, SC, ST, EWS, Minority).
+- **One-Click Update**: Citizens can edit their personal data anytime through an intuitive interface with immediate validation and feedback.
+- **Intelligent Auto-Matching**: Saved profile attributes automatically populate eligibility checks across the platform, eliminating repetitive data entry.
+
+---
+
+## 📊 Personal Scheme Dashboard
+
+The citizen dashboard (`/profile`) brings together a complete overview of the user's welfare discovery journey:
+
+1. **Active Profile Snapshot**: Direct view of current domicile, occupation, and income attributes with quick editing capabilities.
+2. **Schemes I've Viewed**: Comprehensive record of programs the user has explored, complete with viewing timestamps and direct links back to scheme details.
+3. **Saved Schemes**: Dedicated shortlist of bookmarked welfare programs with current application stage indicators.
+4. **Applied Schemes**: Clear ledger of schemes the user has marked as applied, tracking ongoing personal milestones.
+5. **Recent Activity Audit**: Chronological timeline recording actions such as viewed schemes, saved bookmarks, applied markers, and profile modifications.
+
+---
+
+## 📌 Scheme Activity Tracking
+
+To keep citizens organized throughout long multi-stage government application cycles, SchemeSathi AI integrates live activity tracking:
+
+- 👁️ **View Tracking**: When an authenticated user opens any scheme details page (`/schemes/[id]`), the system logs a `VIEWED` activity record with deduplication to prevent feed clutter.
+- 🔖 **Save / Bookmark Tracking**: Authenticated users can bookmark schemes directly from search cards or detail pages. Unauthenticated guests receive a polite sign-in prompt modal.
+- 📝 **Application Milestone Tracking**: Citizens can mark schemes as "Applied" once they have submitted their paperwork to official government departments.
+  > [!NOTE]
+  > **Clear Transparency Notice**: Marking a scheme as "Applied" is an internal milestone tracker within SchemeSathi AI. It helps citizens record their personal progress and **does not** constitute an official application submission to government authorities. Official submissions must always be completed on genuine government portals linked on each scheme page.
+- 🗑️ **User Control**: Citizens can remove saved bookmarks or change their application status at any time.
 
 ---
 
 ## 🏛️ Architecture: Why Separate AI from Eligibility?
 
 > [!IMPORTANT]
-> **Key Hackathon Pitch & Judge Defense:**  
-> Large Language Models (LLMs) can hallucinate legal rules or make inconsistent eligibility promises.  
+> **Core Hackathon Principle:**  
+> Large Language Models (LLMs) are exceptional at summarization, intent extraction, and conversational explanation, but can hallucinate legal criteria, misinterpret statutory ceilings, or provide inconsistent promises.  
 > SchemeSathi AI strictly separates **Deterministic Computation** from **Generative AI Assistance**:
-
-```
                               ┌────────────────────────────────────────┐
                               │          Citizen User Input            │
                               │  (Questionnaire or Natural Language)   │
