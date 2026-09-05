@@ -1,4 +1,4 @@
-# SchemeSathi AI 🇮🇳
+# SchemeSathi AI 
 > **"Your Personal Government Scheme Eligibility Assistant"**  
 > *Discover the government welfare schemes you may be eligible for — in minutes, not hours.*
 
