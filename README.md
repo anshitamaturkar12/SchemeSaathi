@@ -141,27 +141,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🌟 Hackathon Demo Guide (How to Present to Judges)
 
-1. **Start on Landing Page (`/`)**:
-   - Point out the trust-first design, the 4-step citizen flow, and official source disclaimer.
-2. **Click Quick Demo Personas**:
-   - Click **"🌾 Farmer (Maharashtra)"** or **"🎓 Student"** at the top.
-   - Watch the 6-step questionnaire automatically populate with realistic Indian demographic data.
-3. **Submit to Results Dashboard (`/find/results`)**:
-   - Highlight the **Deterministic Match Scores** (e.g. 92% Strong Match for PM-KISAN, 50% for PMAY).
-   - Click **"Why am I eligible?"** on any card to show the green checkmarks and explainable rules breakdown.
-4. **Open Scheme Details (`/schemes/pm-kisan`)**:
-   - Check off documents in the **Document Readiness Meter** to see it climb to 100%.
-   - Click **"Explain in Simple Language"** and toggle between English, Hindi, or Marathi!
-5. **Show Natural Language Finder (`/assistant`)**:
-   - Switch to the **Natural Language Finder** tab.
-   - Type: *"I am a 21 year old student from Maharashtra and my family income is below 3 lakh."*
-   - See AI extract the structured profile and immediately execute the rules engine!
-6. **Show Scheme Comparison (`/compare`)**:
-   - Compare two schemes side-by-side and click **"Which One Should I Choose?"** for AI trade-off analysis.
-
----
 
 ## 🔒 Privacy & Official Safety Principles
 
