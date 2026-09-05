@@ -111,6 +111,8 @@ To keep citizens organized throughout long multi-stage government application cy
 > **Core Hackathon Principle:**  
 > Large Language Models (LLMs) are exceptional at summarization, intent extraction, and conversational explanation, but can hallucinate legal criteria, misinterpret statutory ceilings, or provide inconsistent promises.  
 > SchemeSathi AI strictly separates **Deterministic Computation** from **Generative AI Assistance**:
+>
+> 
                               ┌────────────────────────────────────────┐
                               │          Citizen User Input            │
                               │  (Questionnaire or Natural Language)   │
