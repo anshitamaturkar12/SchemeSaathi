@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { AuthProvider } from "@/context/AuthContext";
 import { ProfileProvider } from "@/context/ProfileContext";
 import { SavedSchemesProvider } from "@/context/SavedSchemesContext";
 import Navbar from "@/components/layout/Navbar";
@@ -30,15 +31,18 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
         <LanguageProvider>
-          <ProfileProvider>
-            <SavedSchemesProvider>
-              <Navbar />
-              <main className="flex-1 w-full">{children}</main>
-              <Footer />
-            </SavedSchemesProvider>
-          </ProfileProvider>
+          <AuthProvider>
+            <ProfileProvider>
+              <SavedSchemesProvider>
+                <Navbar />
+                <main className="flex-1 w-full">{children}</main>
+                <Footer />
+              </SavedSchemesProvider>
+            </ProfileProvider>
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>
   );
 }
+

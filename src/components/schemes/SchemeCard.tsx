@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Scheme, SchemeMatchResult } from "@/types/scheme";
 import MatchBadge from "./MatchBadge";
 import { useSavedSchemes } from "@/context/SavedSchemesContext";
+import { useAuth } from "@/context/AuthContext";
+import AuthPromptModal from "@/components/auth/AuthPromptModal";
 import {
   Bookmark,
   ChevronDown,
@@ -34,10 +36,28 @@ export default function SchemeCard({
   const { scheme, score, matchCategory, matchedCriteria, unmetCriteria, unknownCriteria, summaryExplanation } =
     matchResult;
   const { isSaved, toggleSave } = useSavedSchemes();
+  const { user, recordActivity, removeActivity, isSavedScheme } = useAuth();
   const [showExplanation, setShowExplanation] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
-  const bookmarked = isSaved(scheme.id);
+  const bookmarked = isSaved(scheme.id) || (user ? isSavedScheme(scheme.id) : false);
+
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!user) {
+      setAuthModalOpen(true);
+      return;
+    }
+    const wasBookmarked = bookmarked;
+    toggleSave(scheme.id);
+    if (wasBookmarked) {
+      removeActivity(scheme.id, "SAVED");
+    } else {
+      recordActivity(scheme.id, scheme.name, "SAVED", "interested");
+    }
+  };
+
 
   const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -82,10 +102,7 @@ export default function SchemeCard({
             </button>
 
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                toggleSave(scheme.id);
-              }}
+              onClick={handleBookmarkClick}
               title={bookmarked ? "Remove from saved" : "Save scheme"}
               className={`p-2 rounded-xl transition-all ${
                 bookmarked
@@ -184,6 +201,13 @@ export default function SchemeCard({
           <ArrowRight className="w-4 h-4 text-navy-600" />
         </Link>
       </div>
+
+      <AuthPromptModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        actionType="save"
+      />
     </div>
   );
 }
+

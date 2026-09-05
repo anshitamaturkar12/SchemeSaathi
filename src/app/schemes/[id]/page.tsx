@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useProfile } from "@/context/ProfileContext";
 import { useSavedSchemes } from "@/context/SavedSchemesContext";
+import { useAuth } from "@/context/AuthContext";
+import AuthPromptModal from "@/components/auth/AuthPromptModal";
 import { evaluateScheme } from "@/lib/eligibility/engine";
 import MatchBadge from "@/components/schemes/MatchBadge";
 import EligibilityBreakdown from "@/components/schemes/EligibilityBreakdown";
@@ -35,11 +37,21 @@ export default function SchemeDetailsPage() {
   const id = params.id as string;
   const { allSchemes, profile } = useProfile();
   const { isSaved, toggleSave } = useSavedSchemes();
+  const { user, recordActivity, removeActivity, isSavedScheme, isAppliedScheme } = useAuth();
 
   const [explainModalOpen, setExplainModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalAction, setAuthModalAction] = useState<"save" | "apply">("save");
 
   const scheme = allSchemes.find((s) => s.id === id);
+
+  // Track scheme view when user is logged in
+  useEffect(() => {
+    if (scheme && user) {
+      recordActivity(scheme.id, scheme.name, "VIEWED");
+    }
+  }, [scheme, user, recordActivity]);
 
   if (!scheme) {
     return (
@@ -61,7 +73,8 @@ export default function SchemeDetailsPage() {
 
   // Calculate dynamic match for this scheme against user profile
   const matchResult = evaluateScheme(scheme, profile);
-  const bookmarked = isSaved(scheme.id);
+  const bookmarked = isSaved(scheme.id) || (user ? isSavedScheme(scheme.id) : false);
+  const applied = user ? isAppliedScheme(scheme.id) : false;
 
   // Similar schemes (same category or state)
   const similarSchemes = allSchemes
@@ -77,10 +90,38 @@ export default function SchemeDetailsPage() {
     }
   };
 
+  const handleSaveClick = () => {
+    if (!user) {
+      setAuthModalAction("save");
+      setAuthModalOpen(true);
+      return;
+    }
+    const wasSaved = bookmarked;
+    toggleSave(scheme.id);
+    if (wasSaved) {
+      removeActivity(scheme.id, "SAVED");
+    } else {
+      recordActivity(scheme.id, scheme.name, "SAVED", "interested");
+    }
+  };
+
+  const handleApplyClick = () => {
+    if (!user) {
+      setAuthModalAction("apply");
+      setAuthModalOpen(true);
+      return;
+    }
+    if (applied) {
+      removeActivity(scheme.id, "APPLIED");
+    } else {
+      recordActivity(scheme.id, scheme.name, "APPLIED", "applied");
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
       {/* Back Button */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <button
           onClick={() => router.back()}
           className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-navy-900 transition-colors"
@@ -89,7 +130,7 @@ export default function SchemeDetailsPage() {
           <span>Back to Schemes</span>
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleShare}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 shadow-xs transition-colors"
@@ -99,18 +140,32 @@ export default function SchemeDetailsPage() {
           </button>
 
           <button
-            onClick={() => toggleSave(scheme.id)}
-            className={`inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all ${
+            onClick={handleSaveClick}
+            className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl border transition-all ${
               bookmarked
-                ? "bg-amber-50 text-amber-900 border-amber-300"
+                ? "bg-amber-50 text-amber-900 border-amber-300 font-bold"
                 : "bg-white text-slate-700 border-slate-200 hover:bg-slate-100"
             }`}
           >
-            <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? "fill-current" : ""}`} />
+            <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? "fill-amber-500 text-amber-500" : ""}`} />
             <span>{bookmarked ? "Saved in Bookmarks" : "Save Scheme"}</span>
+          </button>
+
+          <button
+            onClick={handleApplyClick}
+            className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl border transition-all ${
+              applied
+                ? "bg-emerald-50 text-emerald-900 border-emerald-300 font-bold"
+                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-100"
+            }`}
+            title="Mark this scheme as applied in your personal tracker"
+          >
+            <CheckCircle2 className={`w-3.5 h-3.5 ${applied ? "text-emerald-600 fill-emerald-100" : "text-slate-400"}`} />
+            <span>{applied ? "Marked as Applied" : "Mark as Applied"}</span>
           </button>
         </div>
       </div>
+
 
       {/* Main Header Banner */}
       <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-card space-y-6">
@@ -355,6 +410,14 @@ export default function SchemeDetailsPage() {
         isOpen={explainModalOpen}
         onClose={() => setExplainModalOpen(false)}
       />
+
+      {/* Auth Prompt Modal for Guests */}
+      <AuthPromptModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        actionType={authModalAction}
+      />
     </div>
   );
 }
+
