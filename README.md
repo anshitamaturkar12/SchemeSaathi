@@ -157,7 +157,21 @@ To keep citizens organized throughout long multi-stage government application cy
 
 ---
 
+---
 
+## 🔑 Core Architecture Principle
+
+> **"AI understands the citizen.  
+> Rules evaluate eligibility.  
+> SchemeSathi explains the result.  
+> The profile remembers the journey."**
+
+1. **AI Understands**: Gemini extracts citizen intent from conversational text without forcing users through intimidating bureaucratic drop-downs.
+2. **Rules Evaluate**: Hardcoded, mathematical logic validates strict legal rules with 100% predictability and zero hallucinations.
+3. **SchemeSathi Explains**: Every recommendation explicitly enumerates which criteria matched, which failed, and what remains unknown.
+4. **Profile Remembers**: Secure user profiles store personalized details and track application milestones across sessions.
+
+---
 
 ## 📦 Verified Government Schemes Included (18 Programs)
 
@@ -184,7 +198,11 @@ To keep citizens organized throughout long multi-stage government application cy
 
 ---
 
-## 🚀 Getting Started
+## 🧪 User Journey
+
+
+
+
 
 ### 1. Clone & Install
 ```bash
